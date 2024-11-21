@@ -1,6 +1,11 @@
 # imghub
 
-### 本仓库对[MarSeventh/CloudFlare-ImgBed](https://github.com/MarSeventh/CloudFlare-ImgBed)项目前端进行了一点diy，详细介绍及部署方式请移步该仓库。
+### 本仓库是[MarSeventh/CloudFlare-ImgBed](https://github.com/MarSeventh/CloudFlare-ImgBed)的项目前端，详细介绍及部署方式请移步该仓库。
+### 是对原前端[MarSeventh/Sanyue-ImgHub](https://github.com/MarSeventh/Sanyue-ImgHub)进行的diy
+
+## 效果
+
+![image](https://github.com/user-attachments/assets/0290e298-f7ee-4566-b265-eea1ead9f1de)
 
 ## 新增功能
 
@@ -14,13 +19,6 @@
   - 动态主题色跟随
   - 优化动画效果
 
-## 原有功能
-
-- 支持多文件上传
-- 支持图片和视频
-- 支持客户端压缩和服务端压缩
-- 支持多种链接格式
-- 支持文件管理和用户管理
 
 ## Deployment
 
@@ -31,6 +29,7 @@
 3. 将修改好的`CloudFlare-ImgBed`项目部署上去即可，具体方法参照完整项目的文档
 
 ## Theme
+![image](https://github.com/user-attachments/assets/2788fe9c-6c54-44a6-bb99-a37a11da85ec)
 
 - 主题色：可以通过右侧工具栏的主题设置按钮进行调整
 - 明暗模式：支持明亮和暗黑两种模式，可以在主题设置中切换
