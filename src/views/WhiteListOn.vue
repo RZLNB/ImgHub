@@ -33,6 +33,22 @@ export default {
             ],
         });
     },
+    computed: {
+        backgroundColor() {
+            return this.isDarkMode ? 
+                `rgba(30, 30, 30, ${this.componentOpacity})` : 
+                `rgba(255, 255, 255, ${this.componentOpacity})`
+        },
+        textColor() {
+            return this.isDarkMode ? '#ffffff' : '#000000'
+        },
+        isDarkMode() {
+            return this.$store.state.isDarkMode
+        },
+        componentOpacity() {
+            return this.$store.state.componentOpacity
+        }
+    }
 }
 </script>
 
@@ -42,6 +58,7 @@ export default {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f5f5f5;
+    background-color: v-bind('backgroundColor');
+    color: v-bind('textColor');
 }
 </style>  

@@ -39,6 +39,20 @@ export default {
         },
         bkOpacity() {
             return this.userConfig?.bkOpacity || 1
+        },
+        backgroundColor() {
+            return this.isDarkMode ? 
+                `rgba(30, 30, 30, ${this.componentOpacity})` : 
+                `rgba(255, 255, 255, ${this.componentOpacity})`
+        },
+        textColor() {
+            return this.isDarkMode ? '#ffffff' : '#000000'
+        },
+        isDarkMode() {
+            return this.$store.state.isDarkMode
+        },
+        componentOpacity() {
+            return this.$store.state.componentOpacity
         }
     },
     mounted() {
@@ -137,9 +151,10 @@ export default {
     width: 40vw;
     border-radius: 12px;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: v-bind('backgroundColor');
     backdrop-filter: blur(8px);
     transition: all 0.3s ease;
+    border: 3px solid transparent;
 }
 @media (max-width: 768px) {
     .login-container {
@@ -149,6 +164,7 @@ export default {
 .login-container:hover {
     box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.24);
     transform: translateY(-5px);
+    border-color: v-bind('themeColor');
 }
 .password-input {
     margin-bottom: 15px;

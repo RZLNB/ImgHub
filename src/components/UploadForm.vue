@@ -14,13 +14,11 @@
             :show-file-list="false"
             accept="image/*, video/*"
             >
-            <el-icon class="el-icon--upload" :size="100">
-                <CameraFilled color="blanchedalmond"/>
-            </el-icon>
-            <div class="el-upload__text"><em>拖拽</em> <em>点击</em> 或 <em>Ctrl + V</em> 粘贴上传</div>
-            <template #tip>
-                <div class="el-upload__tip">支持多文件上传，支持图片和视频，Telegram渠道不支持超过20MB</div>
-            </template>
+            <font-awesome-icon icon="cloud-upload-alt" class="el-icon--upload" size="6x" style="color: blanchedalmond"/>
+            <div class="el-upload__text">
+                <em>拖拽</em> <em>点击</em> 或 <em>Ctrl + V</em> 粘贴上传
+                <div class="upload-tip">支持多文件上传，支持图片和视频，Telegram渠道不支持超过20MB</div>
+            </div>
         </el-upload>
         <el-card class="upload-list-card" :class="{'upload-list-busy': fileList.length}">
             <div class="upload-list-container" :class="{'upload-list-busy': fileList.length}">
@@ -206,6 +204,23 @@ computed: {
     },
     disableTooltip() {
         return window.innerWidth < 768
+    },
+    themeColor() {
+        return this.$store.state.themeColor
+    },
+    componentOpacity() {
+        return this.$store.state.componentOpacity
+    },
+    isDarkMode() {
+        return this.$store.state.isDarkMode
+    },
+    textColor() {
+        return this.isDarkMode ? '#ffffff' : '#000000'
+    },
+    backgroundColor() {
+        return this.isDarkMode ? 
+            `rgba(30, 30, 30, ${this.componentOpacity})` : 
+            `rgba(255, 255, 255, ${this.componentOpacity})`
     }
 },
 mounted() {
@@ -295,7 +310,7 @@ methods: {
         }
     },
     handleError(err, file) {
-        this.$message.error(file.name + '上传失败')
+        this.$message.error(file.name + '上传���败')
         this.fileList.find(item => item.uid === file.uid).status = 'exception'
         if (this.waitingList.length) {
             const file = this.waitingList.shift()
@@ -368,7 +383,7 @@ methods: {
                     
                     const myUploadCount = this.uploadCount++
 
-                    //开启服务端压缩条件：1.开启服务端压缩 2.文件大小小于10MB 3.上传渠道为Telegram
+                    //开启服务端压缩条件：1.开启务端压缩 2.文件大小于10MB 3.上传渠道为Telegram
                     const needServerCompress = this.serverCompress && newFile.size / 1024 / 1024 < 10 && this.uploadChannel === 'telegram'
 
                     if (myUploadCount === 0) {
@@ -655,7 +670,7 @@ methods: {
     0%, 100% {
     }
     50% {
-        box-shadow: 0 0 10px 5px #409EFF;
+        box-shadow: 0 0 10px 5px v-bind('themeColor');
         opacity: 0.8;
     }
 }
@@ -674,10 +689,15 @@ methods: {
     align-items: center;
     justify-content: center;
     border-radius: 15px;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: v-bind('backgroundColor');
     backdrop-filter: blur(10px);
-    border: 1px solid #327ecc50;
-    box-shadow: 1px 2px 5px 1px #327ecc8c;
+    border: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+.upload-list-card:hover {
+    opacity: 0.95;
+    box-shadow: 0 0 10px 5px v-bind('themeColor');
+    border-color: v-bind('themeColor');
 }
 .upload-list-container {
     width: 55vw;
@@ -702,7 +722,6 @@ methods: {
     align-items: center;
     justify-content: space-between;
     margin: 5px;
-    border: 1px solid #a5bef7;
     padding: 5px;
     border-radius: 15px;
 }
@@ -711,6 +730,7 @@ methods: {
     font-weight: bold;
     width: 28vw;
     margin-bottom: 5px;
+    color: v-bind('textColor');
 }
 .upload-list-item-content {
     display: flex;
@@ -771,19 +791,18 @@ methods: {
     align-items: center;
     height: 45vh;
     border-radius: 15px;
-    border: 3px dashed #409EFF;
-    opacity: 0.7;
-    background-color: rgba(255, 255, 255, 0.6);
+    border: 3px dashed v-bind('themeColor');
+    background-color: v-bind('backgroundColor');
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
 }
 :deep(.el-upload-dragger:hover) {
-    opacity: 0.8;
-    box-shadow: 0 0 10px 5px #409EFF;
+    opacity: 0.95;
+    box-shadow: 0 0 10px 5px v-bind('themeColor');
 }
 :deep(.el-upload-dragger.is-dragover) {
-    opacity: 0.8;
-    box-shadow: 0 0 10px 5px #409EFF;
+    opacity: 0.95;
+    box-shadow: 0 0 10px 5px v-bind('themeColor');
 }
 .is-uploading :deep(.el-upload-dragger){
     animation: breathe 3s infinite;
@@ -792,11 +811,15 @@ methods: {
     font-weight: bold;
     font-size: medium;
     user-select: none;
+    color: v-bind('textColor');
 }
-.el-upload__tip {
-    font-size: medium;
-    color: antiquewhite;
+.upload-tip {
+    font-size: small;
+    color: v-bind('textColor');
+    opacity: 0.8;
     user-select: none;
+    margin-top: 8px;
+    font-weight: normal;
 }
 .upload-list-dashboard {
     display: flex;
@@ -811,11 +834,12 @@ methods: {
     transition: all 0.3s ease;
 }
 .upload-list-dashboard.list-scrolled {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, v-bind('componentOpacity'));
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 .upload-list-dashboard-title {
     font-size: medium;
     font-weight: bold;
+    color: v-bind('textColor');
 }
 </style>

@@ -5,7 +5,6 @@ export default createStore({
   state: {
     userConfig: null,
     bingWallPapers: [],
-    credentials: null,
     uploadCopyUrlForm: '',
     compressConfig: {
       customerCompress: true,
@@ -14,14 +13,19 @@ export default createStore({
       serverCompress: true,
     },
     storeUploadChannel: 'telegram',
+    themeColor: '#681780',
+    componentOpacity: 0.7,
+    isDarkMode: false,
   },
   getters: {
     userConfig: state => state.userConfig,
     bingWallPapers: state => state.bingWallPapers,
-    credentials: state => state.credentials,
     uploadCopyUrlForm: state => state.uploadCopyUrlForm,
     compressConfig: state => state.compressConfig,
     storeUploadChannel: state => state.storeUploadChannel,
+    themeColor: state => state.themeColor,
+    componentOpacity: state => state.componentOpacity,
+    isDarkMode: state => state.isDarkMode,
   },
   mutations: {
     setUserConfig(state, userConfig) {
@@ -29,9 +33,6 @@ export default createStore({
     },
     setBingWallPapers(state, bingWallPapers) {
       state.bingWallPapers = bingWallPapers;
-    },
-    setCredentials(state, credentials) {
-      state.credentials = credentials;
     },
     setUploadCopyUrlForm(state, uploadCopyUrlForm) {
       state.uploadCopyUrlForm = uploadCopyUrlForm;
@@ -42,6 +43,15 @@ export default createStore({
     setStoreUploadChannel(state, uploadChannel) {
       state.storeUploadChannel = uploadChannel;
     },
+    setThemeColor(state, color) {
+      state.themeColor = color || '#681780'
+    },
+    setComponentOpacity(state, opacity) {
+      state.componentOpacity = opacity
+    },
+    setDarkMode(state, isDark) {
+      state.isDarkMode = isDark;
+    }
   },
   actions: {
     async fetchUserConfig({ commit }) {

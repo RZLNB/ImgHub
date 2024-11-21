@@ -63,9 +63,20 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['credentials']),
+        ...mapGetters(['credentials', 'themeColor', 'componentOpacity']),
         disableTooltip() {
             return window.innerWidth < 768;
+        },
+        backgroundColor() {
+            return this.isDarkMode ? 
+                `rgba(30, 30, 30, ${this.componentOpacity})` : 
+                `rgba(255, 255, 255, ${this.componentOpacity})`
+        },
+        textColor() {
+            return this.isDarkMode ? '#ffffff' : '#000000'
+        },
+        isDarkMode() {
+            return this.$store.state.isDarkMode
         }
     },
     methods: {
@@ -168,13 +179,14 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: v-bind('backgroundColor');
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.5s ease, box-shadow 0.5s ease;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    color: v-bind('textColor');
 }
 
 @media (max-width: 768px) {
@@ -193,23 +205,23 @@ export default {
     font-weight: bold;
     cursor: pointer;
     transition: color 0.3s ease;
-    color: #333;
+    color: v-bind('textColor');
 }
 
 .title:hover {
-    color: #B39DDB; /* 使用柔和的淡紫色 */
+    color: v-bind('themeColor');
 }
 
 .header-icon {
     font-size: 1.5em;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: #333;
+    color: v-bind('textColor');
     outline: none;
 }
 
 .header-icon:hover {
-    color: #B39DDB; /* 使用柔和的淡紫色 */
+    color: v-bind('themeColor');
     transform: scale(1.2);
 }
 
@@ -230,4 +242,4 @@ export default {
         margin-top: 35px;
     }
 }
-</style>import { format } from 'core-js/core/date';
+</style>

@@ -195,7 +195,7 @@ data() {
     }
 },
 computed: {
-    ...mapGetters(['credentials']),
+    ...mapGetters(['credentials', 'themeColor', 'componentOpacity']),
     filteredTableData() {
         return this.tableData.filter(data => !this.search || data.name.toLowerCase().includes(this.search.toLowerCase()) || data.metadata?.FileName?.toLowerCase().includes(this.search.toLowerCase()));
     },
@@ -253,6 +253,17 @@ computed: {
     },
     selectPageIcon() {
         return this.selectPage ? 'check-square' : 'square';
+    },
+    backgroundColor() {
+        return this.isDarkMode ? 
+            `rgba(30, 30, 30, ${this.componentOpacity})` : 
+            `rgba(255, 255, 255, ${this.componentOpacity})`
+    },
+    textColor() {
+        return this.isDarkMode ? '#ffffff' : '#000000'
+    },
+    isDarkMode() {
+        return this.$store.state.isDarkMode
     }
 },
 watch: {
@@ -660,7 +671,7 @@ mounted() {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: v-bind('backgroundColor');
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -676,7 +687,7 @@ mounted() {
 }
 
 .header-content:hover {
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: v-bind('isDarkMode ? "rgba(50, 50, 50, 0.85)" : "rgba(255, 255, 255, 0.85)"');
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -684,12 +695,12 @@ mounted() {
     font-size: 1.5em;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: #333;
+    color: v-bind('textColor');
     outline: none;
 }
 
 .header-icon:hover {
-    color: #B39DDB; /* 使用柔和的淡紫色 */
+    color: v-bind('themeColor');
     transform: scale(1.2);
 }
 
@@ -698,11 +709,11 @@ mounted() {
     font-weight: bold;
     cursor: pointer;
     transition: color 0.3s ease;
-    color: #333;
+    color: v-bind('textColor');
 }
 
 .title:hover {
-    color: #B39DDB; /* 使用柔和的淡紫色 */
+    color: v-bind('themeColor');
 }
 
 .stats {
@@ -710,12 +721,12 @@ mounted() {
     margin-right: 20px;
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.9);
+    background: v-bind('backgroundColor');
     padding: 5px 10px;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: v-bind('isDarkMode ? "0 2px 4px rgba(255, 255, 255, 0.1)" : "0 2px 4px rgba(0, 0, 0, 0.1)"');
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    color: #333;
+    color: v-bind('textColor');
 }
 
 @media (max-width: 768px) {
@@ -729,17 +740,17 @@ mounted() {
     margin-right: 10px;
     font-size: 1.5em;
     transition: color 0.3s ease;
-    color: inherit;
+    color: v-bind('themeColor');
 }
 
 .stats:hover {
-    background-color: #f0eaf8; /* 使用柔和的淡紫色 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-    color: #B39DDB; /* 使用柔和的淡紫色 */
+    background-color: v-bind('isDarkMode ? "rgba(50, 50, 50, 0.85)" : "rgba(255, 255, 255, 0.85)"');
+    box-shadow: v-bind('isDarkMode ? "0 4px 6px rgba(255, 255, 255, 0.15)" : "0 4px 6px rgba(0, 0, 0, 0.15)"');
+    color: v-bind('themeColor');
 }
 
 .stats:hover .fa-database {
-    color: #B39DDB; /* 使用柔和的淡紫色 */
+    color: v-bind('themeColor');
 }
 
 .header-content .actions {
@@ -758,20 +769,20 @@ mounted() {
     font-size: 1.5em;
     cursor: pointer;
     transition: color 0.3s, transform 0.3s;
-    color: #333;
+    color: v-bind('textColor');
 }
 
 .header-content .actions i:hover {
-    color: #B39DDB; /* 使用柔和的淡紫色 */
+    color: v-bind('themeColor');
     transform: scale(1.2);
 }
 
 .header-content .actions .el-dropdown-link i {
-    color: #333;
+    color: v-bind('textColor');
 }
 
 .header-content .actions .el-dropdown-link i:hover {
-    color: #B39DDB; /* 使用柔和的淡紫色 */
+    color: v-bind('themeColor');
 }
 
 .header-content .actions .disabled {
@@ -780,7 +791,7 @@ mounted() {
 }
 
 .header-content .actions .enabled {
-    color: #B39DDB; /* 使用柔和的淡紫色 */
+    color: v-bind('themeColor');
 }
 
 .search-card {
@@ -860,9 +871,9 @@ mounted() {
 
 .img-card {
     width: 100%;
-    background: rgba(255, 255, 255, 0.6);
+    background-color: v-bind('backgroundColor');
     border-radius: 8px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: v-bind('isDarkMode ? "0 2px 12px rgba(255, 255, 255, 0.1)" : "0 2px 12px rgba(0, 0, 0, 0.1)"');
     overflow: hidden;
     position: relative;
     transition: transform 0.3s ease;
@@ -886,8 +897,8 @@ mounted() {
 
 .file-info {
     padding: 10px;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
+    background-color: v-bind('backgroundColor');
+    color: v-bind('textColor');
     text-align: center;
     position: absolute;
     bottom: 0;
@@ -908,7 +919,7 @@ mounted() {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.6);
+    background: v-bind('isDarkMode ? "rgba(50, 50, 50, 0.6)" : "rgba(0, 0, 0, 0.6)"');
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
