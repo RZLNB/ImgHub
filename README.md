@@ -5,8 +5,7 @@
 
 ## 效果
 
-![image](https://github.com/user-attachments/assets/23ab84f3-85a8-41c4-b5ae-70ff92ef4797)
-
+![11月21日](https://github.com/user-attachments/assets/44e35c07-b34a-4466-8c5e-a3ed959c5776)
 
 ## 新增功能
 
